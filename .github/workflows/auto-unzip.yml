@@ -1,0 +1,30 @@
+name: Auto Unzip
+
+on:
+  push:                    # 任何推送都触发（测试用）
+  workflow_dispatch:       # 手动触发
+
+jobs:
+  unzip:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write      # 明确给写权限
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Unzip files
+        run: |
+          sudo apt-get update && sudo apt-get install -y unzip
+          find . -name "*.zip" -type f | while read f; do
+            dir="${f%.zip}"
+            unzip -o "$f" -d "$dir"
+            rm "$f"
+          done
+          
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git diff --staged --quiet || (git commit -m "Auto unzip" && git push)
