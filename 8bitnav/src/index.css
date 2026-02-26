@@ -1,0 +1,237 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 12%;
+    --foreground: 0 0% 82%;
+    --card: 0 0% 15%;
+    --card-foreground: 0 0% 82%;
+    --popover: 0 0% 15%;
+    --popover-foreground: 0 0% 82%;
+    --primary: 0 72% 71%;
+    --primary-foreground: 0 0% 12%;
+    --secondary: 174 62% 57%;
+    --secondary-foreground: 0 0% 12%;
+    --muted: 0 0% 20%;
+    --muted-foreground: 0 0% 60%;
+    --accent: 48 100% 71%;
+    --accent-foreground: 0 0% 12%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 25%;
+    --input: 0 0% 25%;
+    --ring: 0 72% 71%;
+    --radius: 0;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'VT323', monospace;
+    overflow-x: hidden;
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><rect x="0" y="0" width="16" height="16" fill="none"/><rect x="0" y="0" width="8" height="8" fill="%23d0d0d0"/><rect x="8" y="8" width="8" height="8" fill="%23d0d0d0"/></svg>'), auto;
+  }
+}
+
+/* 8-bit Font Classes */
+.font-8bit {
+  font-family: 'Press Start 2P', cursive;
+}
+
+.font-terminal {
+  font-family: 'VT323', monospace;
+}
+
+/* CRT Scanline Effect */
+.crt-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%,
+    rgba(0, 0, 0, 0.25) 50%
+  );
+  background-size: 100% 4px;
+  animation: scanline 8s linear infinite;
+}
+
+.crt-overlay::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 0%,
+    rgba(0, 0, 0, 0.3) 100%
+  );
+}
+
+@keyframes scanline {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(4px);
+  }
+}
+
+/* Screen flicker effect */
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.98; }
+  52% { opacity: 1; }
+  55% { opacity: 0.97; }
+  56% { opacity: 1; }
+}
+
+.screen-flicker {
+  animation: flicker 4s infinite;
+}
+
+/* Pixel border effect */
+.pixel-border {
+  box-shadow: 
+    -4px 0 0 0 #d0d0d0,
+    4px 0 0 0 #d0d0d0,
+    0 -4px 0 0 #d0d0d0,
+    0 4px 0 0 #d0d0d0;
+}
+
+.pixel-border-thick {
+  box-shadow: 
+    -8px 0 0 0 #d0d0d0,
+    8px 0 0 0 #d0d0d0,
+    0 -8px 0 0 #d0d0d0,
+    0 8px 0 0 #d0d0d0;
+}
+
+/* Floating animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* Color cycle animation */
+@keyframes color-cycle {
+  0% { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(360deg); }
+}
+
+.animate-color-cycle {
+  animation: color-cycle 10s linear infinite;
+}
+
+/* Step animation for 8-bit feel */
+@keyframes step-walk {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(10px); }
+}
+
+/* Glow effect */
+.glow {
+  text-shadow: 
+    0 0 5px currentColor,
+    0 0 10px currentColor,
+    0 0 20px currentColor;
+}
+
+/* Binary background */
+.binary-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.03;
+  font-family: 'VT323', monospace;
+  font-size: 14px;
+  line-height: 1.2;
+  color: #00ff00;
+  overflow: hidden;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+/* Track line style */
+.track-line {
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 10px,
+    rgba(208, 208, 208, 0.2) 10px,
+    rgba(208, 208, 208, 0.2) 20px
+  );
+}
+
+/* Hover jump effect */
+.hover-jump {
+  transition: transform 0.1s steps(2);
+}
+
+.hover-jump:hover {
+  transform: translateY(-20px);
+}
+
+/* Selection style */
+::selection {
+  background: #ff6b6b;
+  color: #1e1e1e;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1e1e1e;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d0d0d0;
+  border: 2px solid #1e1e1e;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ff6b6b;
+}
+
+/* Responsive text */
+@media (max-width: 768px) {
+  .font-8bit {
+    font-size: 0.7rem;
+  }
+}
